@@ -1,7 +1,29 @@
+:root{
+    --primary-color: #2F5FA7;
+    --secondary-color: #4A79BD;
+    --list-color: #DCEFD9;
+    --button-color: #AFC6E9;
+    --hover-color: #b2e2f6;
+    --text-color: #1f1f1f;
+    --border-radius: 8px;
+}
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body{
+    background-image: url('../asset/background.jpg');
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark-text);
 }
 
 .continer{
@@ -10,9 +32,20 @@
 
 .card{
     padding: 20px;
-    width: 600px;
+    width: 500px;
     justify-content: center;
     align-items: center;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--secondary-color);
+}
+
+.firstscreen{
+    display: block;
+}
+
+.secondscreen{
+       display: none;
 }
 
 .title {
@@ -39,6 +72,9 @@
 .form label{
     display: block;
     font-size: 18px;
+    margin-bottom: 6px;
+    color: var(--text-color);
+    font-weight: 500;
 }
 
 .form input{
@@ -46,7 +82,16 @@
     padding: 12px 16px;
     font-size: 1rem;
     transition: all 0.3s ease;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    border: 2px solid var(--text-color);
+    border-radius: var(--border-radius);
+}
+
+.form input:focus{
+    background-color: var(--button-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(157, 141, 241, 0.1);
+
 }
 
 .login-btn, .signup-btn{
@@ -61,8 +106,13 @@
     font-size: 20px;
     width: 95px;
     justify-content: center;
+    border-radius: var(--border-radius);
+    background-color: var(--button-color);
+}
 
-} 
+.btn-in:hover, .btn-back:hover, .btn-sin:hover{
+    background-color: var(--hover-color);
+}
 
 .new{
     display: flex;
@@ -87,7 +137,9 @@
 
 .divider span{
     padding: 0 15px;
-    font-size: 14px;
+    font-size: 16px;
+    color: var(--text-color);
+    font-weight: 600;
 }
 
 .btn-sin{
@@ -96,3 +148,4 @@
     width: 150px;
     margin-top: 10px;
 }
+
