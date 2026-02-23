@@ -1,5 +1,3 @@
-
-
 // Todo Factory/Constructor
 export const Todo = (function() {
   let idCounter = Date.now();
@@ -30,9 +28,9 @@ export const Todo = (function() {
 
   Todo.prototype.getPriorityColor = function() {
     const colors = {
-      high: '#dc3545',
-      medium: '#ffc107',
-      low: '#28a745'
+      high: '#ea2d40',
+      medium: '#ffc414',
+      low: '#1ea13c'
     };
     return colors[this.priority] || colors.low;
   };

@@ -123,5 +123,4 @@ class TodoApp {
     }
 }
 
-// Initialize the app
 const app = new TodoApp();

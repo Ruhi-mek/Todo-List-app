@@ -1,6 +1,5 @@
 import { saveUser, loginUser } from './storage.js';
 
-// Initialize authentication UI
 export const initAuthUI = () => {
     const loginscreen = document.getElementById('login-screen');
     const signupscreen = document.getElementById('signup-screen');
@@ -82,40 +81,52 @@ export const initAuthUI = () => {
 };
 
 export const renderTodo = (todo, onToggle, onDelete) => {
-    const li = document.createElement('li');
+    // Clone the template
+    const template = document.getElementById('todo-template');
+    const clone = template.content.cloneNode(true);
+    
+    // Get the li element
+    const li = clone.querySelector('.todo-item');
     li.className = `todo-item priority-${todo.priority} ${todo.completed ? 'completed' : ''}`;
     
-    li.innerHTML = `
-        <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''} data-id="${todo.id}">
-        <div class="todo-content">
-            <h3>${escapeHtml(todo.title)}</h3>
-            ${todo.description ? `<p>${escapeHtml(todo.description)}</p>` : ''}
-            <div class="todo-meta">
-                ${todo.dueDate ? `<span class="todo-date">📅 ${formatDate(todo.dueDate)}</span>` : ''}
-                <span class="todo-priority priority-${todo.priority}">${todo.priority.toUpperCase()}</span>
-            </div>
-        </div>
-        <div class="todo-actions">
-            <button class="delete-btn" data-id="${todo.id}">Delete</button>
-        </div>
-    `;
-
-    const checkbox = li.querySelector('.todo-checkbox');
+    // Set checkbox
+    const checkbox = clone.querySelector('.todo-checkbox');
+    checkbox.checked = todo.completed;
     checkbox.addEventListener('change', () => onToggle(todo.id));
-
-    const deleteBtn = li.querySelector('.delete-btn');
+    
+    // Set title
+    const title = clone.querySelector('.todo-title');
+    title.textContent = todo.title;
+    
+    // Set description
+    const description = clone.querySelector('.todo-description');
+    if (todo.description) {
+        description.textContent = todo.description;
+    } else {
+        description.remove();
+    }
+    
+    // Set date
+    const dateSpan = clone.querySelector('.todo-date');
+    if (todo.dueDate) {
+        dateSpan.textContent = `📅 ${formatDate(todo.dueDate)}`;
+    } else {
+        dateSpan.remove();
+    }
+    
+    // Set priority
+    const prioritySpan = clone.querySelector('.todo-priority');
+    prioritySpan.className = `todo-priority priority-${todo.priority}`;
+    prioritySpan.textContent = todo.priority.toUpperCase();
+    
+    // Set delete button
+    const deleteBtn = clone.querySelector('.delete-btn');
     deleteBtn.addEventListener('click', () => onDelete(todo.id));
-
-    return li;
+    
+    return clone;
 };
 
 export const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-};
-
-export const escapeHtml = (text) => {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
 };
