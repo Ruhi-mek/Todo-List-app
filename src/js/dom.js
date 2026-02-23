@@ -1,6 +1,6 @@
 import { saveUser, loginUser } from './storage.js';
 
-export const initAuthUI = () => {
+export const initAuthUI = (todoApp) => {
     const loginscreen = document.getElementById('login-screen');
     const signupscreen = document.getElementById('signup-screen');
     const mainscreen = document.getElementById('main-screen');
@@ -32,6 +32,9 @@ export const initAuthUI = () => {
             document.getElementById('signup-password').value = '';
             signupscreen.style.display = 'none';
             mainscreen.style.display = 'block';
+            
+            // Load todos for new user (will be empty)
+            todoApp.loadUserTodos();
         }
     });
 
@@ -53,6 +56,9 @@ export const initAuthUI = () => {
             document.getElementById('login-password').value = '';
             loginscreen.style.display = 'none';
             mainscreen.style.display = 'block';
+            
+            // Load todos for logged in user
+            todoApp.loadUserTodos();
         }
     });
 

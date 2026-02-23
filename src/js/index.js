@@ -1,21 +1,31 @@
 import '../css/style.css';
 import { Todo } from './todo.js';
 import { renderTodo, initAuthUI } from './dom.js';
-import { saveToStorage, loadFromStorage } from './storage.js';
+import { saveToStorage, loadFromStorage, getCurrentUser } from './storage.js';
 
 class TodoApp {
     constructor() {
-        this.todos = loadFromStorage('todos') || [];
+        this.todos = [];
         this.currentFilter = 'all';
         this.init();
     }
 
     init() {
         // Initialize authentication UI first
-        initAuthUI();
+        initAuthUI(this);
         
         this.cacheDom();
         this.bindEvents();
+        
+        // Load todos if user is already logged in
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+            this.loadUserTodos();
+        }
+    }
+
+    loadUserTodos() {
+        this.todos = loadFromStorage('todos') || [];
         this.render();
     }
 

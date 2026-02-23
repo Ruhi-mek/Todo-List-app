@@ -1,6 +1,12 @@
 export const saveToStorage = (key, data) => {
     try {
-        localStorage.setItem(key, JSON.stringify(data));
+        const currentUser = getCurrentUser();
+        if (currentUser && key === 'todos') {
+            // Save todos with username prefix
+            localStorage.setItem(`todos_${currentUser.name}`, JSON.stringify(data));
+        } else {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
     } catch (error) {
         console.error('Error saving to localStorage:', error);
     }
@@ -8,8 +14,15 @@ export const saveToStorage = (key, data) => {
 
 export const loadFromStorage = (key) => {
     try {
-        const data = localStorage.getItem(key);
-        return data ? JSON.parse(data) : null;
+        const currentUser = getCurrentUser();
+        if (currentUser && key === 'todos') {
+            // Load todos for specific user
+            const data = localStorage.getItem(`todos_${currentUser.name}`);
+            return data ? JSON.parse(data) : null;
+        } else {
+            const data = localStorage.getItem(key);
+            return data ? JSON.parse(data) : null;
+        }
     } catch (error) {
         console.error('Error loading from localStorage:', error);
         return null;
