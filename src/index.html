@@ -6,6 +6,7 @@
     <title>Todo List</title>
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/dom.js" defer></script>
+    <script src=".js/storage.js" defer></script>
 </head>
 <body>
     <div class="continer">
@@ -24,8 +25,8 @@
                         <input type="password" id="login-password" name="password" placeholder="Enter your password" required>
                     </div>
                     <div class="login-btn">
-                        <button class="btn-in">Log in</button>
-                        <button class="btn-back" id="clean-info">Back</button>
+                        <button class="btn-in" id="login-to-main">Log in</button>
+                        <button class="btn-back" id="clean-info">Clean</button>
                     </div>
                     <div class="new">
                         <div class="divider">
@@ -54,14 +55,40 @@
                         <input type="password" id="signup-password" name="password" placeholder="Enter your password" required>
                     </div>
                     <div class="signup-btn">
-                        <button class="btn-in">Sign Up</button>
+                        <button class="btn-in" id="signup-to-main">Sign Up</button>
                         <button class="btn-back" id="back-to-login">Back</button>
                     </div>
                 </div>
             </div>    
-        </div>    
+        </div>
         
+        <!-- main screen -->
+        <div class="mainscreen" id = "main-screen">
+             <header>
+                <h1>📝 Advanced Todo List</h1>
+            </header>
 
+            <div class="input-section">
+                <input type="text" id="todoInput" placeholder="Add new todo (title, description, due date, priority)">
+                <input type="text" id="descriptionInput" placeholder="Description">
+                <input type="date" id="dueDateInput">
+                <select id="prioritySelect">
+                    <option value="low">Low Priority</option>
+                    <option value="medium" selected>Medium Priority</option>
+                    <option value="high">High Priority</option>
+                </select>
+                <button id="addBtn">Add Todo</button>
+            </div>
+
+            <div class="filter-section">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+
+            <ul id="todoList" class="todo-list"></ul>
+        </div>
+        
     </div>
 </body>
 </html>
