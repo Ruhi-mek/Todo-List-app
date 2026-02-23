@@ -31,7 +31,7 @@ export const initAuthUI = (todoApp) => {
             document.getElementById('signup-email').value = '';
             document.getElementById('signup-password').value = '';
             signupscreen.style.display = 'none';
-            mainscreen.style.display = 'block';
+            loginscreen.style.display = 'block';
             
             // Load todos for new user (will be empty)
             todoApp.loadUserTodos();
