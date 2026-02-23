@@ -26,6 +26,10 @@ class TodoApp {
 
     loadUserTodos() {
         this.todos = loadFromStorage('todos') || [];
+        this.currentFilter = 'all';
+        this.filterBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.filter === 'all');
+        });
         this.render();
     }
 
