@@ -1,44 +1,85 @@
-const loginscreen = document.getElementById('login-screen');
-const signupscreen = document.getElementById('signup-screen');
-const mainscreen = document.getElementById('main-screen');
+import { saveUser, loginUser } from './storage.js';
 
-const mainpage = document.querySelectorAll('.btn-in');
-const cleaninfo = document.getElementById('clean-info');
-const gotosignup = document.getElementById('go-to-signup');
-const backtologin = document.getElementById('back-to-login');
+// Initialize authentication UI
+export const initAuthUI = () => {
+    const loginscreen = document.getElementById('login-screen');
+    const signupscreen = document.getElementById('signup-screen');
+    const mainscreen = document.getElementById('main-screen');
 
-const signuptomain = document.getElementById('signup-to-main');
-const logintomain = document.getElementById('login-to-main');
+    const cleaninfo = document.getElementById('clean-info');
+    const gotosignup = document.getElementById('go-to-signup');
+    const backtologin = document.getElementById('back-to-login');
 
-// Event listeners for login and signup screens
-mainpage.forEach(button => {
-    button.addEventListener('click', () => {
-        loginscreen.style.display = 'none';
-        signupscreen.style.display = 'none';
-        mainscreen.style.display = 'block';
+    const signuptomain = document.getElementById('signup-to-main');
+    const logintomain = document.getElementById('login-to-main');
 
+    // Signup handler
+    signuptomain.addEventListener('click', () => {
+        const name = document.getElementById('signup-name').value;
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+
+        if (!name || !email || !password) {
+            alert('Please fill all the requirements!');
+            return;
+        }
+
+        const result = saveUser(name, email, password);
+        alert(result.message);
+        
+        if (result.success) {
+            document.getElementById('signup-name').value = '';
+            document.getElementById('signup-email').value = '';
+            document.getElementById('signup-password').value = '';
+            signupscreen.style.display = 'none';
+            mainscreen.style.display = 'block';
+        }
     });
-});
 
-cleaninfo.addEventListener('click',()=> {
-    document.getElementById('login-name').value = '';
-    document.getElementById('login-password').value = '';
-})
+    // Login handler
+    logintomain.addEventListener('click', () => {
+        const loginName = document.getElementById('login-name').value;
+        const loginPassword = document.getElementById('login-password').value;
 
-gotosignup.addEventListener('click', () => {
-    document.getElementById('login-name').value = '';
-    document.getElementById('login-password').value = '';
-    loginscreen.style.display = 'none';
-    signupscreen.style.display = 'block';
-});
+        if (!loginName || !loginPassword) {
+            alert('Please enter username and password!');
+            return;
+        }
 
-backtologin.addEventListener('click', () => {
-    document.getElementById('signup-name').value = '';
-    document.getElementById('signup-email').value = '';
-    document.getElementById('signup-password').value = '';
-    signupscreen.style.display = 'none';
-    loginscreen.style.display = 'block';
-});
+        const result = loginUser(loginName, loginPassword);
+        alert(result.message);
+        
+        if (result.success) {
+            document.getElementById('login-name').value = '';
+            document.getElementById('login-password').value = '';
+            loginscreen.style.display = 'none';
+            mainscreen.style.display = 'block';
+        }
+    });
+
+    // Clean login form
+    cleaninfo.addEventListener('click', () => {
+        document.getElementById('login-name').value = '';
+        document.getElementById('login-password').value = '';
+    });
+
+    // Navigate to signup
+    gotosignup.addEventListener('click', () => {
+        document.getElementById('login-name').value = '';
+        document.getElementById('login-password').value = '';
+        loginscreen.style.display = 'none';
+        signupscreen.style.display = 'block';
+    });
+
+    // Navigate back to login
+    backtologin.addEventListener('click', () => {
+        document.getElementById('signup-name').value = '';
+        document.getElementById('signup-email').value = '';
+        document.getElementById('signup-password').value = '';
+        signupscreen.style.display = 'none';
+        loginscreen.style.display = 'block';
+    });
+};
 
 export const renderTodo = (todo, onToggle, onDelete) => {
     const li = document.createElement('li');

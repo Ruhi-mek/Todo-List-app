@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns';
+
 
 // Todo Factory/Constructor
 export const Todo = (function() {
@@ -21,8 +21,8 @@ export const Todo = (function() {
   Todo.prototype.getFormattedDate = function() {
     if (!this.dueDate) return 'No due date';
     try {
-      const date = parseISO(this.dueDate);
-      return format(date, 'MMM dd, yyyy');
+      const date = new Date(this.dueDate);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     } catch (error) {
       return this.dueDate;
     }

@@ -1,9 +1,7 @@
-require('../css/style.css');
-
-
-import { createTodo, toggleTodoComplete } from './js/todo.js';
-import { renderTodo } from './js/dom.js';
-import { saveToStorage, loadFromStorage } from './js/storage.js';
+import '../css/style.css';
+import { Todo } from './todo.js';
+import { renderTodo, initAuthUI } from './dom.js';
+import { saveToStorage, loadFromStorage } from './storage.js';
 
 class TodoApp {
     constructor() {
@@ -13,6 +11,9 @@ class TodoApp {
     }
 
     init() {
+        // Initialize authentication UI first
+        initAuthUI();
+        
         this.cacheDom();
         this.bindEvents();
         this.render();
@@ -49,7 +50,7 @@ class TodoApp {
             return;
         }
 
-        const todo = createTodo(title, description, dueDate, priority);
+        const todo = new Todo(title, description, dueDate, priority);
 
         this.todos.push(todo);
         this.saveToStorage();
@@ -67,7 +68,7 @@ class TodoApp {
     toggleTodo(id) {
         const todo = this.todos.find(t => t.id === id);
         if (todo) {
-            toggleTodoComplete(todo);
+            todo.completed = !todo.completed;
             this.saveToStorage();
             this.render();
         }

@@ -1,40 +1,51 @@
-
-//  
-signuptomain.addEventListener('click', () => { 
-
-    const name = document.getElementById('signup-name').value;
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-
-    if( name == '' || email == '' || password == '' ){
-        alert("Please fill all the requirements!")
-        return;
+export const saveToStorage = (key, data) => {
+    try {
+        localStorage.setItem(key, JSON.stringify(data));
+    } catch (error) {
+        console.error('Error saving to localStorage:', error);
     }
+};
 
-    let users = JSON.parse(localStorage.getItem('users')) || [];
-
-    if(users.find(user => user.name === name)){
-        alert("Username already taken!");
-    } else {
-        users.push({ name, email, password });
-        
-        localStorage.setItem('users', JSON.stringify(users));
-        
-        alert("Signup Successfully done!");
-    }    
-});
-
-// 
-logintomain.addEventListener('click', () => {
-
-    const loginName = document.getElementById('login-name').value;
-    const loginPassword = document.getElementById('login-password').value;
-
-    let users = JSON.parse(localStorage.getItem(users)) || []; 
-
-    if(users.find(user => user.name === loginName && user.password === loginPassword)){
-        alert(`Welcome back, ${validUser.name}! Login Successful.`);
-    } else{
-        alert("Invalid Username or Password!");
+export const loadFromStorage = (key) => {
+    try {
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : null;
+    } catch (error) {
+        console.error('Error loading from localStorage:', error);
+        return null;
     }
-});
+};
+
+// User authentication functions
+export const saveUser = (name, email, password) => {
+    let users = loadFromStorage('users') || [];
+    
+    if (users.find(user => user.name === name)) {
+        return { success: false, message: 'Username already taken!' };
+    }
+    
+    users.push({ name, email, password });
+    saveToStorage('users', users);
+    return { success: true, message: 'Signup successful!' };
+};
+
+export const loginUser = (name, password) => {
+    let users = loadFromStorage('users') || [];
+    
+    const validUser = users.find(user => user.name === name && user.password === password);
+    
+    if (validUser) {
+        saveToStorage('currentUser', validUser);
+        return { success: true, message: `Welcome back, ${validUser.name}!` };
+    }
+    
+    return { success: false, message: 'Invalid Username or Password!' };
+};
+
+export const getCurrentUser = () => {
+    return loadFromStorage('currentUser');
+};
+
+export const logoutUser = () => {
+    localStorage.removeItem('currentUser');
+};
