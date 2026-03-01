@@ -115,10 +115,10 @@ class TodoApp {
 
     render() {
         const filteredTodos = this.getFilteredTodos();
-        this.todoList.innerHTML = '';
+        this.todoList = '';
 
         if (filteredTodos.length === 0) {
-            this.todoList.innerHTML = '<li style="text-align: center; padding: 20px; color: #999;">No todos to display</li>';
+            this.todoList = '<li style="text-align: center; padding: 20px; color: #999;">No todos to display</li>';
             return;
         }
 
@@ -128,7 +128,7 @@ class TodoApp {
                 (id) => this.toggleTodo(id),
                 (id) => this.deleteTodo(id)
             );
-            this.todoList.appendChild(todoElement);
+            this.todoList += todoElement.outerHTML;
         });
     }
 
